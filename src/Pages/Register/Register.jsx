@@ -13,7 +13,8 @@ import { PiEyeSlashDuotone } from "react-icons/pi";
 const Register = () => {
 	const [showPassword, setShowPassword] = useState(false);
 
-	const { createNewUser } = useContext(AuthContext);
+	const { createNewUser, googleSignIn, githubSignIn } =
+		useContext(AuthContext);
 	const handleRegisetr = (e) => {
 		// Get data from the input field
 		e.preventDefault();
@@ -45,6 +46,35 @@ const Register = () => {
 			})
 			.catch((error) => {
 				console.log(error.message);
+			});
+	};
+
+	// Google Sign in
+	const handleGoogleSignIn = () => {
+		googleSignIn()
+			.then((response) => {
+				const user = response.user;
+				console.log(user);
+				toast.success("Google sign in successful");
+			})
+			.catch((error) => {
+				console.log(error.message);
+				toast.error("Something went wrong", error.message);
+			});
+	};
+
+	// Git Hub sign in
+
+	const handleGitHubSignIn = () => {
+		githubSignIn()
+			.then((response) => {
+				const user = response.user;
+				console.log(user);
+				toast.success("Github sign in successful");
+			})
+			.catch((error) => {
+				console.log(error.message);
+				toast.error("Something went wrong", error.message);
 			});
 	};
 
@@ -161,7 +191,10 @@ const Register = () => {
 
 							<div className=" grid grid-cols-2 gap-2 mt-5">
 								{/* Google */}
-								<button className=" bg-gray-100 hover:bg-indigo-100  duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2">
+								<button
+									onClick={handleGoogleSignIn}
+									className=" bg-gray-100 hover:bg-indigo-100  duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2"
+								>
 									<img
 										className="w-[20px] h-[20px]"
 										src={google}
@@ -196,7 +229,10 @@ const Register = () => {
 									</span>
 								</button>
 								{/* Github */}
-								<button className=" bg-gray-100 hover:bg-indigo-100 duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2">
+								<button
+									onClick={handleGitHubSignIn}
+									className=" bg-gray-100 hover:bg-indigo-100 duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2"
+								>
 									<img
 										className="w-[25px] h-[25px]"
 										src={github}

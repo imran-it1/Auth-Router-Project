@@ -40,10 +40,24 @@ const Navbar = () => {
 				</NavLink>
 			</li>
 			<li className=" mx-8 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
-				<Link to="/shop">Shop</Link>
+				<NavLink
+					to="/shop"
+					className={({ isActive }) =>
+						isActive ? "text-indigo-600" : ""
+					}
+				>
+					Shop
+				</NavLink>
 			</li>
 			<li className=" mx-8 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
-				<Link>About</Link>
+				<NavLink
+					to="/about"
+					className={({ isActive }) =>
+						isActive ? "text-indigo-600" : ""
+					}
+				>
+					About
+				</NavLink>
 			</li>
 		</>
 	);
