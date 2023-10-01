@@ -60,7 +60,7 @@ const Navbar = () => {
 				</NavLink>
 			</li>
 
-			{user && (
+			{user?.emailVerified && (
 				<>
 					{" "}
 					<li className=" mx-5 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
@@ -104,7 +104,7 @@ const Navbar = () => {
 				{/* Button */}
 
 				<div className=" flex items-center gap-5">
-					{user ? (
+					{user?.emailVerified ? (
 						<>
 							<p className=" font-medium text-gray-600">
 								{user.email}

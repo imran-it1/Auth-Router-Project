@@ -10,7 +10,8 @@ import twitter from "../../assets/SVG/twitter.svg";
 
 const Login = () => {
 	// Get data from context
-	const { userLogin, googleSignIn, githubSignIn } = useContext(AuthContext);
+	const { user, userLogin, googleSignIn, githubSignIn } =
+		useContext(AuthContext);
 
 	// Navigate
 	const navigate = useNavigate();
@@ -22,9 +23,20 @@ const Login = () => {
 		const email = e.target.email.value;
 		const password = e.target.password.value;
 		const checkbox = e.target.checkbox.checked;
+
 		// Validation
-		if (!checkbox) {
+		if (user?.email !== email) {
+			toast.error("Email address not matched");
+			return;
+		} else if (!/^[A-Za-z0-9+_.-]+@(.+)$/.test(email)) {
+			return toast.error("Invalid Email address");
+		} else if (!checkbox) {
 			toast.error("Please accept our Terms and Privacy Policy");
+			return;
+		}
+		// Check is user email verified, if not tell user to verify her email first. Otherwise user  can't login
+		else if (!user?.emailVerified) {
+			toast.error("Make sure your email address is verified");
 			return;
 		}
 

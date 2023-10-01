@@ -5,8 +5,7 @@ import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 import toast from "react-hot-toast";
 import { PiEyeDuotone } from "react-icons/pi";
 import { PiEyeSlashDuotone } from "react-icons/pi";
-import { updateProfile } from "firebase/auth";
-import auth from "../../Firebase/Firebase.config";
+import { sendEmailVerification, updateProfile } from "firebase/auth";
 
 const Register = () => {
 	// Navigate
@@ -49,8 +48,16 @@ const Register = () => {
 				console.log(user);
 				// Field Reset
 				e.target.reset();
-				navigate("/");
+				navigate("/login");
+				// Send verification Email
 
+				sendEmailVerification(user)
+					.then(() => {
+						toast.success("Verification email sent");
+					})
+					.catch((error) => {
+						console.log(error);
+					});
 				// Update user profile
 				updateProfile(user, {
 					displayName: name,
