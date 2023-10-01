@@ -6,11 +6,16 @@ import Shop from "../Pages/Shop/Shop";
 import About from "../Pages/About/About";
 import Register from "../Pages/Register/Register";
 import Login from "../Pages/Login/Login";
+import ErrorPage from "../Pages/ErrorPage/ErrorPage";
+import PrivateRoute from "../Components/Private/PrivateRoute";
+import Profile from "../Pages/Profile/Profile";
+import Dashboard from "../Pages/Dashboard/Dashboard";
 
 const myCreatedRoutes = createBrowserRouter([
 	{
 		path: "/",
 		element: <MainLayout />,
+		errorElement: <ErrorPage />,
 		children: [
 			{
 				path: "/",
@@ -27,7 +32,11 @@ const myCreatedRoutes = createBrowserRouter([
 
 			{
 				path: "/about",
-				element: <About />,
+				element: (
+					<PrivateRoute>
+						<About />
+					</PrivateRoute>
+				),
 			},
 			{
 				path: "/register",
@@ -36,6 +45,22 @@ const myCreatedRoutes = createBrowserRouter([
 			{
 				path: "/login",
 				element: <Login />,
+			},
+			{
+				path: "/profile",
+				element: (
+					<PrivateRoute>
+						<Profile />
+					</PrivateRoute>
+				),
+			},
+			{
+				path: "/dashboard",
+				element: (
+					<PrivateRoute>
+						<Dashboard />
+					</PrivateRoute>
+				),
 			},
 		],
 	},

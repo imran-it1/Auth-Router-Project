@@ -19,7 +19,7 @@ const Navbar = () => {
 
 	const links = (
 		<>
-			<li className=" mx-8 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
+			<li className=" mx-5 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
 				<NavLink
 					to="/"
 					className={({ isActive }) =>
@@ -29,7 +29,7 @@ const Navbar = () => {
 					Home
 				</NavLink>
 			</li>
-			<li className=" mx-8 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
+			<li className=" mx-5 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
 				<NavLink
 					to="/products"
 					className={({ isActive }) =>
@@ -39,7 +39,7 @@ const Navbar = () => {
 					Products
 				</NavLink>
 			</li>
-			<li className=" mx-8 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
+			<li className=" mx-5 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
 				<NavLink
 					to="/shop"
 					className={({ isActive }) =>
@@ -49,7 +49,8 @@ const Navbar = () => {
 					Shop
 				</NavLink>
 			</li>
-			<li className=" mx-8 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
+
+			<li className=" mx-5 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
 				<NavLink
 					to="/about"
 					className={({ isActive }) =>
@@ -59,6 +60,32 @@ const Navbar = () => {
 					About
 				</NavLink>
 			</li>
+
+			{user && (
+				<>
+					{" "}
+					<li className=" mx-5 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
+						<NavLink
+							to="/profile"
+							className={({ isActive }) =>
+								isActive ? "text-indigo-600" : ""
+							}
+						>
+							Profile
+						</NavLink>
+					</li>
+					<li className=" mx-5 text-black font-semibold px-2 py-2 rounded-md bg-transparent duration-300 ease-in-out transition-all hover:bg-gray-100">
+						<NavLink
+							to="/dashboard"
+							className={({ isActive }) =>
+								isActive ? "text-indigo-600" : ""
+							}
+						>
+							Dashboard
+						</NavLink>
+					</li>
+				</>
+			)}
 		</>
 	);
 
@@ -85,7 +112,11 @@ const Navbar = () => {
 							</p>
 							<div className="w-8 h-8 avatar online">
 								<div className="rounded-full">
-									<img src={avatar} />
+									{user ? (
+										<img src={user.photoURL} />
+									) : (
+										<img src={avatar} />
+									)}
 								</div>
 							</div>
 							<Link

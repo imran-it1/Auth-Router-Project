@@ -1,9 +1,5 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import registerImg from "../../assets/SVG/register.svg";
-import google from "../../assets/SVG/google.svg";
-import facebook from "../../assets/SVG/facebook.svg";
-import github from "../../assets/SVG/github.svg";
-import twitter from "../../assets/SVG/twitter.svg";
 import { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 import toast from "react-hot-toast";
@@ -11,10 +7,12 @@ import { PiEyeDuotone } from "react-icons/pi";
 import { PiEyeSlashDuotone } from "react-icons/pi";
 
 const Register = () => {
+	// Navigate
+	const navigate = useNavigate();
+
 	const [showPassword, setShowPassword] = useState(false);
 
-	const { createNewUser, googleSignIn, githubSignIn } =
-		useContext(AuthContext);
+	const { createNewUser } = useContext(AuthContext);
 	const handleRegisetr = (e) => {
 		// Get data from the input field
 		e.preventDefault();
@@ -43,38 +41,10 @@ const Register = () => {
 				console.log(user);
 				// Field Reset
 				e.target.reset();
+				navigate("/");
 			})
 			.catch((error) => {
 				console.log(error.message);
-			});
-	};
-
-	// Google Sign in
-	const handleGoogleSignIn = () => {
-		googleSignIn()
-			.then((response) => {
-				const user = response.user;
-				console.log(user);
-				toast.success("Google sign in successful");
-			})
-			.catch((error) => {
-				console.log(error.message);
-				toast.error("Something went wrong", error.message);
-			});
-	};
-
-	// Git Hub sign in
-
-	const handleGitHubSignIn = () => {
-		githubSignIn()
-			.then((response) => {
-				const user = response.user;
-				console.log(user);
-				toast.success("Github sign in successful");
-			})
-			.catch((error) => {
-				console.log(error.message);
-				toast.error("Something went wrong", error.message);
 			});
 	};
 
@@ -179,69 +149,6 @@ const Register = () => {
 									type="submit"
 									value="Sign Up"
 								/>
-							</div>
-
-							<div className=" grid grid-cols-3 items-center mt-8">
-								<hr />
-								<p className=" text-center">Or Log in With</p>
-								<hr />
-							</div>
-
-							{/* Social Login */}
-
-							<div className=" grid grid-cols-2 gap-2 mt-5">
-								{/* Google */}
-								<button
-									onClick={handleGoogleSignIn}
-									className=" bg-gray-100 hover:bg-indigo-100  duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2"
-								>
-									<img
-										className="w-[20px] h-[20px]"
-										src={google}
-										alt="Google Logo"
-									/>
-									<span className="text-gray-900  text-base font-medium">
-										Google
-									</span>
-								</button>
-								{/* Facebook */}
-								<button className=" bg-gray-100 hover:bg-indigo-100 duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2">
-									<img
-										className="w-[20px] h-[20px]"
-										src={facebook}
-										alt="Google Logo"
-									/>
-									<span className=" text-gray-900 text-base font-medium">
-										Facebook
-									</span>
-								</button>
-							</div>
-							<div className=" grid grid-cols-2 gap-2 mt-5">
-								{/* Twitter */}
-								<button className=" bg-gray-100 hover:bg-indigo-100 duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2">
-									<img
-										className="w-[20px] h-[20px]"
-										src={twitter}
-										alt="Google Logo"
-									/>
-									<span className=" text-gray-900 text-base font-medium">
-										Twitter
-									</span>
-								</button>
-								{/* Github */}
-								<button
-									onClick={handleGitHubSignIn}
-									className=" bg-gray-100 hover:bg-indigo-100 duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2"
-								>
-									<img
-										className="w-[25px] h-[25px]"
-										src={github}
-										alt="Google Logo"
-									/>
-									<span className=" text-gray-900 text-base font-medium">
-										GitHub
-									</span>
-								</button>
 							</div>
 
 							<div className=" flex justify-center mt-10">
