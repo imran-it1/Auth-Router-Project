@@ -6,12 +6,15 @@ const Profile = () => {
 
 	return (
 		<div className=" min-h-screen flex justify-center items-center">
+			{/* Profile Update */}
+			<div></div>
+
 			<div className="min-w-md rounded-md p-8 sm:flex sm:space-x-6 dark:bg-gray-900  dark:text-gray-100">
 				<div className="flex-shrink-0 w-full mb-6 h-44 sm:h-32 sm:w-32 sm:mb-0">
 					<img
 						src={user?.photoURL}
 						alt="photo of user"
-						className="object-cover object-center w-full h-full rounded-full "
+						className="object-cover object-center w-full h-full rounded "
 					/>
 				</div>
 

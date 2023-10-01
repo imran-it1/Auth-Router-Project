@@ -5,6 +5,8 @@ import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 import toast from "react-hot-toast";
 import { PiEyeDuotone } from "react-icons/pi";
 import { PiEyeSlashDuotone } from "react-icons/pi";
+import { updateProfile } from "firebase/auth";
+import auth from "../../Firebase/Firebase.config";
 
 const Register = () => {
 	// Navigate
@@ -13,13 +15,17 @@ const Register = () => {
 	const [showPassword, setShowPassword] = useState(false);
 
 	const { createNewUser } = useContext(AuthContext);
+
+	// Handle register event
 	const handleRegisetr = (e) => {
 		// Get data from the input field
 		e.preventDefault();
-		// const name = e.target.name.value;
+		const name = e.target.name.value;
 		const email = e.target.email.value;
 		const password = e.target.password.value;
 		const checkbox = e.target.checkbox.checked;
+		const photo = e.target.files.value;
+		console.log(typeof name, typeof photo);
 
 		// Validation
 
@@ -33,7 +39,9 @@ const Register = () => {
 			toast.error("Please accept our Terms and Privacy policy");
 			return;
 		}
+
 		// Create New User
+
 		createNewUser(email, password)
 			.then((response) => {
 				const user = response.user;
@@ -42,6 +50,18 @@ const Register = () => {
 				// Field Reset
 				e.target.reset();
 				navigate("/");
+
+				// Update user profile
+				updateProfile(user, {
+					displayName: name,
+					photoURL: photo,
+				})
+					.then(() => {
+						toast.success("User profile update successful");
+					})
+					.catch((error) => {
+						console.log(error);
+					});
 			})
 			.catch((error) => {
 				console.log(error.message);
@@ -119,6 +139,18 @@ const Register = () => {
 									)}
 								</div>
 							</div>
+							<div className=" mt-5">
+								<label className="block font-semibold">
+									Attachment
+								</label>
+								<input
+									className="w-full text-gray-900 font-medium border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+									name="files"
+									placeholder="Enter image URL"
+									// required
+								/>
+							</div>
+
 							<div className=" flex items-center mt-4">
 								<input
 									className="mr-2 rounded-sm focus:ring-indigo-500 border-gray-300 text-indigo-500"

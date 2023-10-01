@@ -5,7 +5,6 @@ import toast from "react-hot-toast";
 import avatar from "../../../assets/images/avatar.jpeg";
 const Navbar = () => {
 	const { user, logOut } = useContext(AuthContext);
-	console.log(user);
 
 	const handleSignOut = () => {
 		logOut()
@@ -113,7 +112,10 @@ const Navbar = () => {
 							<div className="w-8 h-8 avatar online">
 								<div className="rounded-full">
 									{user ? (
-										<img src={user.photoURL} />
+										<img
+											src={user.photoURL}
+											alt="User Profile"
+										/>
 									) : (
 										<img src={avatar} />
 									)}
