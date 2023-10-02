@@ -8,6 +8,8 @@ import {
 	GoogleAuthProvider,
 	GithubAuthProvider,
 	signInWithPopup,
+	FacebookAuthProvider,
+	TwitterAuthProvider,
 } from "firebase/auth";
 import auth from "../../Firebase/Firebase.config";
 
@@ -16,6 +18,8 @@ export const AuthContext = createContext();
 // Provider
 const googleProvider = new GoogleAuthProvider();
 const gitHubProvider = new GithubAuthProvider();
+const facebookProvider = new FacebookAuthProvider();
+const twitterProvider = new TwitterAuthProvider();
 
 const AuthProvider = ({ children }) => {
 	const [user, setUser] = useState(null);
@@ -51,6 +55,19 @@ const AuthProvider = ({ children }) => {
 		return signInWithPopup(auth, gitHubProvider);
 	};
 
+	// Facebook sign in
+
+	const facebookSignIn = () => {
+		setLoading(true);
+		return signInWithPopup(auth, facebookProvider);
+	};
+	// Twitter sign in
+
+	const twitterSignIn = () => {
+		setLoading(true);
+		return signInWithPopup(auth, twitterProvider);
+	};
+
 	// Get Current User
 
 	useEffect(() => {
@@ -73,6 +90,8 @@ const AuthProvider = ({ children }) => {
 		logOut,
 		googleSignIn,
 		githubSignIn,
+		facebookSignIn,
+		twitterSignIn,
 		loading,
 	};
 

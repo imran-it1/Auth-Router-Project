@@ -1,17 +1,27 @@
 import { Link, useNavigate } from "react-router-dom";
 import loginSVG from "../../assets/SVG/login.svg";
-import { useContext } from "react";
+import { useContext, useState } from "react";
 import { AuthContext } from "../../Context/AuthProvider/AuthProvider";
 import toast from "react-hot-toast";
 import google from "../../assets/SVG/google.svg";
 import facebook from "../../assets/SVG/facebook.svg";
 import github from "../../assets/SVG/github.svg";
 import twitter from "../../assets/SVG/twitter.svg";
+import { PiEyeDuotone } from "react-icons/pi";
+import { PiEyeSlashDuotone } from "react-icons/pi";
 
 const Login = () => {
+	// State
+	const [showPassword, setShowPassword] = useState(false);
+
 	// Get data from context
-	const { user, userLogin, googleSignIn, githubSignIn } =
-		useContext(AuthContext);
+	const {
+		userLogin,
+		googleSignIn,
+		githubSignIn,
+		facebookSignIn,
+		twitterSignIn,
+	} = useContext(AuthContext);
 
 	// Navigate
 	const navigate = useNavigate();
@@ -25,20 +35,18 @@ const Login = () => {
 		const checkbox = e.target.checkbox.checked;
 
 		// Validation
-		if (user?.email !== email) {
-			toast.error("Email address not matched");
-			return;
-		} else if (!/^[A-Za-z0-9+_.-]+@(.+)$/.test(email)) {
+
+		if (!/^[A-Za-z0-9+_.-]+@(.+)$/.test(email)) {
 			return toast.error("Invalid Email address");
 		} else if (!checkbox) {
 			toast.error("Please accept our Terms and Privacy Policy");
 			return;
 		}
 		// Check is user email verified, if not tell user to verify her email first. Otherwise user  can't login
-		else if (!user?.emailVerified) {
-			toast.error("Make sure your email address is verified");
-			return;
-		}
+		// else if (!user?.emailVerified) {
+		// 	toast.error("Make sure your email address is verified");
+		// 	return;
+		// }
 
 		// user login
 		userLogin(email, password)
@@ -53,7 +61,7 @@ const Login = () => {
 			})
 			.catch((error) => {
 				console.log(error.message);
-				toast.error("Wrong email or password");
+				toast.error("Wrong email or password", error.message);
 			});
 	};
 	// Google Sign in
@@ -79,6 +87,35 @@ const Login = () => {
 				const user = response.user;
 				console.log(user);
 				toast.success("Github sign in successful");
+				navigate("/");
+			})
+			.catch((error) => {
+				console.log(error.message);
+				toast.error("Something went wrong", error.message);
+			});
+	};
+
+	// Facebook Sign In
+	const handleFacebookSignIn = () => {
+		facebookSignIn()
+			.then((response) => {
+				const user = response.user;
+				console.log(user);
+				toast.success("Facebook sign in successful");
+				navigate("/");
+			})
+			.catch((error) => {
+				console.log(error.message);
+				toast.error("Something went wrong", error.message);
+			});
+	};
+	// Twitter Sign In
+	const handleTwitterSignIn = () => {
+		twitterSignIn()
+			.then((response) => {
+				const user = response.user;
+				console.log(user);
+				toast.success("Twitter sign in successful");
 				navigate("/");
 			})
 			.catch((error) => {
@@ -120,27 +157,31 @@ const Login = () => {
 									required
 								/>
 							</div>
-							<div className=" mt-5">
+							<div className="relative mt-5">
 								<div className=" flex items-center justify-between">
 									<label className="block font-semibold">
 										Password
 									</label>
-									<label className="block font-semibold">
-										<a
-											href="#"
-											className="underline text-indigo-500 text-sm font-medium"
-										>
-											Forget Password
-										</a>
-									</label>
 								</div>
 								<input
-									className="w-full text-gray-900 font-medium  border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
-									type="password"
+									className="w-full text-gray-900 font-medium border-gray-300 rounded-lg shadow-sm focus:border-indigo-500 focus:ring-indigo-500"
+									type={showPassword ? "text" : "password"}
 									name="password"
 									placeholder="Enter your Password"
 									required
 								/>
+								<div
+									onClick={() =>
+										setShowPassword(!showPassword)
+									}
+									className=" absolute top-9 right-3 hover:cursor-pointer"
+								>
+									{showPassword ? (
+										<PiEyeDuotone className="text-lg"></PiEyeDuotone>
+									) : (
+										<PiEyeSlashDuotone className=" text-lg"></PiEyeSlashDuotone>
+									)}
+								</div>
 							</div>
 							<div className=" flex items-center mt-4">
 								<input
@@ -197,7 +238,10 @@ const Login = () => {
 									</span>
 								</button>
 								{/* Facebook */}
-								<button className=" bg-gray-100 hover:bg-indigo-100 duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2">
+								<button
+									onClick={handleFacebookSignIn}
+									className=" bg-gray-100 hover:bg-indigo-100 duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2"
+								>
 									<img
 										className="w-[20px] h-[20px]"
 										src={facebook}
@@ -210,7 +254,10 @@ const Login = () => {
 							</div>
 							<div className=" grid grid-cols-2 gap-2 mt-5">
 								{/* Twitter */}
-								<button className=" bg-gray-100 hover:bg-indigo-100 duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2">
+								<button
+									onClick={handleTwitterSignIn}
+									className=" bg-gray-100 hover:bg-indigo-100 duration-300 ease-in-out cursor-pointer rounded-md px-2 py-2 flex items-center justify-center gap-2"
+								>
 									<img
 										className="w-[20px] h-[20px]"
 										src={twitter}
